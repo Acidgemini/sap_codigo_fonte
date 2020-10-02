@@ -1,3 +1,5 @@
+import { MessageService } from 'primeng';
+import { Projeto } from './../../../models/projeto.model';
 import { SituacaoService } from './../../../services/situacao.service';
 import { ProjetoService } from './../../../services/projeto.service';
 import { Component, OnInit } from '@angular/core';
@@ -21,15 +23,16 @@ export class OsListComponent implements OnInit {
 
   titulo: string = 'Lista de Ordens de Serviço'
   listaOrdemServico$: Observable<any>;
-  listaOrdemServico: any = [];
   situacoes: any = [];
   projetos: any = [];
   status: any = [];
   display: boolean = false;
+  projeto: Projeto;
   msgs: Message[] = [];
   
   colunas: any = [
     { header: 'Nome' },
+    {header : 'Chave OS'},
     { header: 'Próxima Entrega' },
     { header: 'Prazo' },
     { header: 'Defeitos do Cliente' },
@@ -46,6 +49,7 @@ export class OsListComponent implements OnInit {
     private ordemServicoService: OrdemServicoService,
     private projetoService: ProjetoService,
     private situacaoService: SituacaoService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -73,8 +77,12 @@ export class OsListComponent implements OnInit {
     this.blockUI.start();
     this.ordemServicoService.deletar(id).pipe(
       finalize(() => this.blockUI.stop())
-    ).subscribe(
-      () => this.obterTodos()
+    ).subscribe(() =>{
+      this.obterTodos()
+      this.messageService.add({ severity: 'success', summary: 'Ordem de serviço deletado com sucesso' });
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Erro ao deletar ordem de serviço' })
+      }
     );
   }
   confirm2(id) {
@@ -117,11 +125,12 @@ export class OsListComponent implements OnInit {
   }
 
   obterNomeProjeto(id: number) {
-    return this.projetos.find(projeto => projeto.id == id).nome
+    this.projeto=this.projetos.find(projeto => projeto.id == id);
+    return this.projeto?.nome
   }
 
   showDialog() {
-    this.display = true;
+    this.display = !this.display;
   }
 
 }
