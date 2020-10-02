@@ -39,7 +39,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="sap_codigo_fonte" target="1.8" />
+      <module name="sap-parent" target="1.8" />
       <module name="sapservice" target="1.8" />
     </bytecodeTargetLevel>
   </component>

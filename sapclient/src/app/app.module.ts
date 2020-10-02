@@ -1,3 +1,4 @@
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -17,8 +18,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import {PaginatorModule} from 'primeng/paginator';
 import {TableModule} from 'primeng/table';
 import { from } from 'rxjs';
-import { ConfirmationService } from 'primeng';
-
+import {ConfirmationService} from 'primeng/api';
 @NgModule({
     declarations: [
         AppComponent,
@@ -47,7 +47,8 @@ import { ConfirmationService } from 'primeng';
 
     ],
     providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy }, ConfirmationService
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        ConfirmationService
     ],
     bootstrap: [AppComponent]
 })
